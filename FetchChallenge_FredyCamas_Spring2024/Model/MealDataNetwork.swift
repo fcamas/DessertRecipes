@@ -7,10 +7,7 @@
 
 import Foundation
 
-
-
-
-struct MealData:Decodable{
+struct MealDataNetwork:Decodable{
     var meals: [Meals]
 }
 

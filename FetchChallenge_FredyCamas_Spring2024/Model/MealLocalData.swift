@@ -6,3 +6,15 @@
 //
 
 import Foundation
+
+struct MealLocalData: Decodable{
+    var id:String
+    var name:String
+    var urlImage: String
+ 
+    init(meals: Meals) {
+        self.id = meals.id 
+        self.name = meals.strMeal ?? "Unkwon"
+        self.urlImage = meals.strMealThumb ?? ""
+    }
+}

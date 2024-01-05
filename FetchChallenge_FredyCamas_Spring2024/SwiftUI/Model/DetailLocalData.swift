@@ -6,3 +6,13 @@
 //
 
 import Foundation
+
+struct DetailLocalData: Identifiable {
+    var id:String
+    var instructions:String
+    var ingredients:[String]?
+    var measures:[String]?
+    
+}
+
+

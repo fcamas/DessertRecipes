@@ -9,12 +9,10 @@ import SwiftUI
 
 struct DetailView: View {
     
-    var meal: MealLocalData// Replace YourMealType with your actual data type
+    var meal: MealLocalData
     @StateObject var mealDetail =  DessertViewModel()
     
     var body: some View {
-        // Your SwiftUI detail view code here, using the selected card
-        
         VStack {
             ScrollView(.vertical, showsIndicators: false, content: {
                 GeometryReader{ geometry in
@@ -45,35 +43,29 @@ struct DetailView: View {
                     Text("Instructions")
                         .font(.system(size: 25, weight: .bold))
                     
-                    //MARK: -Missing
-                    Text(meal.id)
+                    Text(mealDetail.detailMeal.first?.instructions ?? "loading")
                         .padding(.all)
                         .fixedSize(horizontal: false, vertical: true)
                     
-                    //MARK: -Missing
                     
                     Text("Ingredients/measurements")
                         .font(.system(size: 25, weight: .bold))
                         .bold()
-//                    ForEach(meal.detailcard.first?.measures ?? []) { card in
-//                        HStack{
-//                            Text(card.ingredients)
-//                            Spacer()
-//                            Text(card.measures)
-//                        }
-//                    }.padding(.leading)
-//                        .padding(.trailing)
+                    
+                    ForEach(0..<min(mealDetail.detailMeal.first?.ingredients?.count ?? 0, mealDetail.detailMeal.first?.measures?.count ?? 0 ), id: \.self) { index in
+                        HStack {
+                            Text(mealDetail.detailMeal.first?.ingredients?[index] ?? "")
+                            Spacer()
+                            Text(mealDetail.detailMeal.first?.measures?[index] ?? "")
+                        }
+                    }.padding()
                     
                 }
                 .background(Color.white)
                 .cornerRadius(20)
-                
-                
             })
             
-            
             Spacer()
-            
             
         }.foregroundColor(.black)
             .onAppear{

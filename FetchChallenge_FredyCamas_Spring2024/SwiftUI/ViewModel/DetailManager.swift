@@ -12,7 +12,7 @@ import Foundation
 
 class DessertViewModel: ObservableObject {
 
-    @Published var detailMeal = [Detail]()
+    @Published var detailMeal = [DetailLocalData]()
 
     // MARK: Fetch Dessert Detail
 
@@ -34,12 +34,9 @@ class DessertViewModel: ObservableObject {
 
             do {
                 let decoder = JSONDecoder()
-                decoder.keyDecodingStrategy = .convertFromSnakeCase // Use this line if your JSON keys are in snake_case
-
+                decoder.keyDecodingStrategy = .convertFromSnakeCase 
                 let results = try decoder.decode(DessertDetail.self, from: data)
                 DispatchQueue.main.async {
-                    print(results.meals)
-
                     // Create arrays for ingredients and measures
                     var ingredients: [String] = []
                     var measures: [String] = []
@@ -51,16 +48,18 @@ class DessertViewModel: ObservableObject {
 
                             if let ingredient = meal[ingredientKey], !ingredient.isEmpty {
                                 ingredients.append(ingredient)
+                                print(ingredient)
                             }
 
                             if let measure = meal[measureKey], !measure.isEmpty {
                                 measures.append(measure)
                             }
                         }
-                        
+                     
+                        let detail = DetailLocalData(id: meal.id, instructions: meal.strInstructions ?? "", ingredients: meal.ingredients, measures: meal.measures)
+                        self.detailMeal.append(detail)
                     }
-
-                    print(self.detailMeal)
+                   
                 }
             } catch {
                 print(error)
