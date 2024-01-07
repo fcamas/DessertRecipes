@@ -34,12 +34,13 @@ class HomeController: UICollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+       
         // Register custom cell
         collectionView.register(MealCollectionCell.self, forCellWithReuseIdentifier: MealCollectionCell.id)
         
         // Configure collection view properties
         collectionView.keyboardDismissMode = .interactive
-        collectionView.contentInset = UIEdgeInsets(top: -111, left: 0, bottom: 111, right: 0)
+        collectionView.contentInset = UIEdgeInsets(top:-111, left: 0, bottom: 111, right: 0)
         collectionView.collectionViewLayout = createLayout()
         
         // Fetch meals data
@@ -126,39 +127,55 @@ extension HomeController{
         // Wrap the DetailView in a NavigationView
         let hostingController = UIHostingController(rootView: NavigationView {
             detailView
-                .navigationBarTitle("", displayMode: .inline)
-                .navigationBarItems(leading: Button("Back") {
-                    self.dismiss(animated: true)
-                }) 
-        })
+        }
+        .navigationBarItems(leading: Button(action: {
+            self.dismiss(animated: true)
+        }) {
+            Image(systemName: "arrow.backward")
+                .foregroundColor(.black)
+        }))
         
-        present(hostingController, animated: true, completion: nil)
+        // Wrap the hostingController in a UINavigationController
+        let navigationController = UINavigationController(rootViewController: hostingController)
+        
+        // Set the modal presentation style to fullscreen
+        navigationController.modalPresentationStyle = .fullScreen
+        
+        present(navigationController, animated: true, completion: nil)
     }
+
+    
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: (view.frame.width), height: (view.frame.height/2) - 210)
+        return CGSize(width: (view.frame.width), height: (view.frame.height/2))
     }
 }
 
 
 //MARK: - UISearchBarDelegate,UISearchResultsUpdating
-
 extension HomeController: UISearchBarDelegate,UISearchResultsUpdating  {
     func updateSearchResults(for searchController: UISearchController) {
         
     }
     
     private func searchOnDisplay() {
-        let searchController = UISearchController(searchResultsController: nil)
-        searchController.searchResultsUpdater = self
-        searchController.searchBar.delegate = self
-        searchController.searchBar.placeholder = "Search"
-        searchController.searchBar.showsCancelButton = false
-        searchController.obscuresBackgroundDuringPresentation = false
-        searchController.hidesNavigationBarDuringPresentation = false
-        searchController.searchBar.barTintColor = .red // Set the background color to red
-        navigationItem.searchController = searchController
-        navigationItem.hidesSearchBarWhenScrolling = false // Ensure that the search bar is always visible
+//        let searchController = UISearchController(searchResultsController: nil)
+//        searchController.searchResultsUpdater = self
+//        searchController.searchBar.delegate = self
+//        searchController.searchBar.placeholder = "Search"
+//        searchController.searchBar.showsCancelButton = false
+//        searchController.obscuresBackgroundDuringPresentation = false
+//        searchController.hidesNavigationBarDuringPresentation = false
+//        searchController.searchBar.barTintColor = .red // Set the background color to red
+//        navigationItem.searchController = searchController
+//        navigationItem.hidesSearchBarWhenScrolling = false // Ensure that the search bar is always visible
+        
+        let searchbar = UISearchBar()
+          searchbar.showsCancelButton = false
+          searchbar.placeholder = "Search any Product"
+          searchbar.delegate = self
+
+          self.navigationItem.titleView = searchbar
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {

@@ -13,7 +13,7 @@ struct MealLocalData: Decodable{
     var urlImage: String
  
     init(meals: Meals) {
-        self.id = meals.id 
+        self.id = meals.id  ?? ""
         self.name = meals.strMeal ?? "Unkwon"
         self.urlImage = meals.strMealThumb ?? ""
     }

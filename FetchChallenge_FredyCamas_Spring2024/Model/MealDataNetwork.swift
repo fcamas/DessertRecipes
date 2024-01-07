@@ -13,9 +13,8 @@ struct MealDataNetwork:Decodable{
 
 struct Meals: Decodable, Identifiable {
   
-    var id :String {
-        let defaultID = UUID()
-        return idMeal ?? "\(defaultID)"
+    var id :String? {
+        return idMeal
     }
     
     var strMeal: String?
